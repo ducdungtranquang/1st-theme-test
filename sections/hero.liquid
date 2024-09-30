@@ -1,0 +1,109 @@
+<section>
+  <div class="hero-wrapper">
+    {% if section.settings.image != blank %}
+      <div class="one-user">
+        <h1></h1>
+      </div>
+    {% else %}
+      <div class="one">
+        <h1></h1>
+      </div>
+    {% endif %}
+
+    {% if section.settings.image1 != blank %}
+      <div class="two-user">
+        <h1></h1>
+      </div>
+    {% else %}
+      <div class="two">
+        <h1></h1>
+      </div>
+    {% endif %}
+
+    {% if section.settings.image2 != blank %}
+      <div class="three-user">
+        <h1></h1>
+      </div>
+    {% else %}
+      <div class="three">
+        <h1></h1>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .one {
+    width: 33.3333%;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-image: url("https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?cs=srgb&dl=pexels-padrinan-255379.jpg&fm=jpg");
+  }
+
+  .one-user {
+    width: 33.3333%;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-image: url('{{section.settings.image | image_url}}');
+  }
+
+  .two-user {
+    width: 33.3333%;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-image: url('{{section.settings.image1 | image_url}}');
+  }
+
+  .three-user {
+    width: 33.3333%;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-image: url('{{section.settings.image2 | image_url}}');
+  }
+
+  .two {
+    width: 33.3333%;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-image: url("https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?cs=srgb&dl=pexels-padrinan-255379.jpg&fm=jpg");
+  }
+
+  .three {
+    width: 33.3333%;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-image: url("https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?cs=srgb&dl=pexels-padrinan-255379.jpg&fm=jpg");
+  }
+
+</style>
+
+
+{% schema %}
+  {
+    "name": "Hero",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "info": "400x120px recommended",
+        "label": "Image"
+      }, {
+        "type": "image_picker",
+        "id": "image1",
+        "info": "400x120px recommended",
+        "label": "Image"
+      }, {
+        "type": "image_picker",
+        "id": "image2",
+        "info": "400x120px recommended",
+        "label": "Image"
+      }
+    ]
+  }
+{% endschema %}

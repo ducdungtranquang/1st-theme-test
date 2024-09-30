@@ -1,0 +1,73 @@
+<section>
+  <h1>{{ collections['first'].title }}</h1>
+  <div class="all-product-container">
+    <div class="product-wrapper">
+      {% for product in collections['first'].products %}
+        <div class="product-card">
+          {% if product.featured_image != blank %}
+            <img
+              width="300"
+              height="300"
+              src="{{product.featured_image |  image_url }}" />
+          {% else %}
+            <img
+              width="300"
+              height="300"
+              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" />
+          {% endif %}
+
+          <h3>{{ product.title | link_to: product.url }}</h3>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .all-product-container {
+    padding: 100px;
+    background-color: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+  }
+  .product-wrapper {
+    display: flex;
+    overflow-x: scroll;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+  .product-wrapper h3 {
+    text-decoration: none;
+  }
+  .product-wrapper h3:hover {
+    text-decoration: underline;
+  }
+  .product-card {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: column;
+  }
+  .product-card img {
+    object-fit: cover;
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "All product",
+    "settings": [
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "text_color",
+        "default": "#000000"
+      }, {
+        "type": "color",
+        "id": "background",
+        "label": "Background",
+        "default": "#F4F4F4"
+      }
+    ]
+  }
+{% endschema %}

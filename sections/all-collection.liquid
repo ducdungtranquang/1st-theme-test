@@ -1,0 +1,66 @@
+<section>
+  <h1>Feature Collection</h1>
+  <div class="all-collection-container">
+    <div class="collection-wrapper">
+      {% for collection in collections %}
+        <div class="collection-card">
+          <img
+            width="300"
+            height="300"
+            src="{{collection.featured_image |  image_url }}"
+            alt="" />
+          <h3>{{ collection.title | link_to: collection.url }}</h3>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .all-collection-container {
+    padding: 100px;
+    background-color: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+  }
+  .collection-wrapper {
+    display: flex;
+    overflow-x: scroll;
+    align-items: center;
+    justify-content: center;
+  }
+  .collection-wrapper h3 {
+    text-decoration: none;
+  }
+  .collection-wrapper h3:hover {
+    text-decoration: underline;
+  }
+  .collection-card {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: column;
+  }
+  .collection-card img {
+    object-fit: cover;
+  }
+</style>
+
+
+{% schema %}
+  {
+    "name": "All collection",
+    "settings": [
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "text_color",
+        "default": "#000000"
+      }, {
+        "type": "color",
+        "id": "background",
+        "label": "Background",
+        "default": "#F4F4F4"
+      }
+    ]
+  }
+{% endschema %}

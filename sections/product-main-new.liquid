@@ -1,0 +1,78 @@
+<section class="relative min-h-screen flex items-center justify-center">
+  <!-- Background with gradient and product image -->
+  <div class="absolute inset-0 bg-gradient-to-r from-purple-800 to-purple-500 z-0">
+    <img width="100" height="100" src="/path-to-product-image.png" alt="Product Background" class="absolute top-10 left-0 h-auto w-full object-cover opacity-10">
+  </div>
+
+  <!-- Product Information Container -->
+  <div class="container relative mx-auto p-6 z-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Single Product Image (no Swiper) -->
+    <div class="product-image">
+      <img width="100" height="100" src="{{ product.images.first | img_url: '1024x1024' }}" alt="{{ product.title }}" class="w-full object-cover" id="main-product-image">
+    </div>
+
+    <!-- Product Details -->
+    <div class="product-details text-white">
+      <h1 class="text-4xl font-bold">{{ product.title }}</h1>
+      <p class="text-xl text-gray-300 mt-2">{{ product.price | money }}</p>
+      <p class="text-md text-gray-400 mt-4">{{ product.description }}</p>
+
+      <!-- Color Options -->
+      <div class="mt-6">
+        <label class="block mb-2 text-gray-400">Color:</label>
+        <div class="flex space-x-4">
+          {% for variant in product.variants %}
+          <div>
+            <input type="radio" name="color" id="color_{{ forloop.index }}" class="hidden" value="{{ variant.id }}" data-image="{{ variant.featured_image | img_url: '1024x1024' }}">
+            <label for="color_{{ forloop.index }}" class="border-2 border-gray-500 rounded-full p-2 cursor-pointer hover:border-white transition">
+              <img width="100" height="100" src="{{ variant.featured_image | img_url: '100x100' }}" alt="Color {{ forloop.index }}" class="w-10 h-10 rounded-full object-cover">
+            </label>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Add to Cart Button -->
+      <div class="mt-8">
+        <button id="add-to-cart" class="bg-black text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Change main image based on selected color option
+    document.querySelectorAll('[name="color"]').forEach(function (input) {
+      input.addEventListener('change', function () {
+        var newImage = this.getAttribute('data-image');
+        document.getElementById('main-product-image').src = newImage;
+      });
+    });
+
+    // Add to Cart functionality
+    document.getElementById('add-to-cart').addEventListener('click', function () {
+      var variantId = document.querySelector('[name="color"]:checked').value;
+      if (!variantId) {
+        alert('Please select a color option.');
+        return;
+      }
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: 1 }),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error('Error adding to cart');
+          return response.json();
+        })
+        .then(() => {
+          window.location.href = '/cart';
+        })
+        .catch((err) => {
+          alert('Error: ' + err.message);
+        });
+    });
+  });
+</script>
